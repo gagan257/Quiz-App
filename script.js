@@ -1,5 +1,5 @@
+//variables
 
-//References
 let timeLeft = document.querySelector(".time-left");
 let quizContainer = document.getElementById("container");
 let nextBtn = document.getElementById("next-button");
@@ -15,7 +15,7 @@ let scoreCount = 0;
 let count = 11;
 let countdown;
 
-//Questions and Options array
+//Questions and Options array section starts here
 
 const quizArray = [
     {
@@ -79,41 +79,41 @@ const quizArray = [
     },
 ];
 
-//Restart Quiz
+//Restart Quiz button section
+
 restart.addEventListener("click", () => {
     initial();
     displayContainer.classList.remove("hide");
     scoreContainer.classList.add("hide");
 });
 
-//Next Button
+//Next Button section starts here
+
 nextBtn.addEventListener(
     "click",
     (displayNext = () => {
-        //increment questionCount
-        questionCount += 1;
-        //if last question
-        if (questionCount == quizArray.length) {
-            //hide question container and display score
-            displayContainer.classList.add("hide");
-            scoreContainer.classList.remove("hide");
-            //user score
-            userScore.innerHTML =
-                "Your score is " + scoreCount + " out of " + questionCount;
-        } else {
-            //display questionCount
-            countOfQuestion.innerHTML =
-                questionCount + 1 + " of " + quizArray.length + " Question";
-            //display quiz
-            quizDisplay(questionCount);
-            count = 11;
-            clearInterval(countdown);
-            timerDisplay();
-        }
+      questionCount += 1;
+      if (questionCount == quizArray.length) {
+        displayContainer.classList.add("hide");
+        scoreContainer.classList.remove("hide");
+        userScore.innerHTML =
+          "Your score is " + scoreCount + " out of " + questionCount;
+      } else {
+        countOfQuestion.innerHTML =
+          questionCount + 1 + " of " + quizArray.length + " Question";
+        quizDisplay(questionCount);
+        count = 11;
+        clearInterval(countdown);
+        timerDisplay();
+        nextBtn.classList.add("animate-next");
+        setTimeout(() => {
+          nextBtn.classList.remove("animate-next");
+        }, 500);
+      }
     })
-);
+  );
+  
 
-//Timer
 const timerDisplay = () => {
     countdown = setInterval(() => {
         count--;
@@ -124,32 +124,21 @@ const timerDisplay = () => {
         }
     }, 1000);
 };
-
-//Display quiz
 const quizDisplay = (questionCount) => {
     let quizCards = document.querySelectorAll(".container-mid");
-    //Hide other cards
     quizCards.forEach((card) => {
         card.classList.add("hide");
     });
-    //display current question card
     quizCards[questionCount].classList.remove("hide");
 };
 
-//Quiz Creation
 function quizCreator() {
-    //randomly sort questions
     quizArray.sort(() => Math.random() - 0.5);
-    //generate quiz
     for (let i of quizArray) {
-        //randomly sort options
         i.options.sort(() => Math.random() - 0.5);
-        //quiz card creation
         let div = document.createElement("div");
         div.classList.add("container-mid", "hide");
-        //question number
         countOfQuestion.innerHTML = 1 + " of " + quizArray.length + " Question";
-        //question
         let question_DIV = document.createElement("p");
         question_DIV.classList.add("question");
         question_DIV.innerHTML = i.question;
